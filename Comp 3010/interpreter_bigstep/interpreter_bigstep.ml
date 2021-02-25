@@ -105,4 +105,4 @@ let rec string_of_exp (e : exp) = match e with
   print_endline( "17) " ^ eval(If( IsZero (If (IsZero (Plus (Num (-1), Num 2)), Num 0, Num 1)) , If ( True, If (False, Mult (Num 0, Num 6), Plus (Num 0, Num 1)), Num 5 ), Num 5 )) );
   print_endline( "18) " ^ eval(If ( IsZero (Plus (Num (-1), Plus (Num 1, Plus (Num (-1), Num 1)))), IsZero True, Num 1 )) );
   print_endline( "19) " ^ eval(Plus ( Num 1, Plus( Num (-1), If ( IsZero (Plus (Num 1, If (True, Num 1, Num 2))) , Plus (Num 1, Num 2), Mult (Num 2, Num 2) ) ) )) );
-  print_endline( "20) " ^ eval(Plus ( Num (-1), If( IsZero (Plus (Num 5, Num (-4))), Mult (Num 123, Plus (Num 5, Num (-4))), IsZero (Num 0) ) )) );
+  print_endline( "20) " ^ eval(Plus ( Num (-1), If( IsZero (Plus (Num 5, Num (-4))), Mult (Num 123, Plus (Num 5, Num (-4))), IsZero (Num 0) ) )) );;
