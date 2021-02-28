@@ -12,18 +12,19 @@ def filter_image(img, hsv_lower, hsv_upper):
     ### You might need to change the parameter values to get better results
     ###############################################################################
 def detect_blob(mask):
-    img = cv2.medianBlur(mask, 9)
+    img = cv2.medianBlur(mask, 99)
+    img = cv2.medianBlur(mask, 15)
    # Set up the SimpleBlobdetector with default parameters.
     params = cv2.SimpleBlobDetector_Params()
     # Change thresholds
-    params.minThreshold = 0;
-    params.maxThreshold = 256;
+    params.minThreshold = 0
+    params.maxThreshold = 256
     #filter by color (on binary)
     params.filterByColor = True
     params.blobColor = 255  # this looks at binary image 0 for looking for dark areas
     # Filter by Area.
     params.filterByArea = True
-    params.minArea = 200
+    params.minArea = 50
     params.maxArea = 20000
     # Filter by Circularity
     params.filterByCircularity = False
