@@ -19,10 +19,10 @@ def nothing(x):
     pass
 
 YELLOW_LOWER = np.array([9, 115, 151])
-YELLOW_UPPER = np.array([179, 215, 255])
+YELLOW_UPPER = np.array([60, 255, 255])
 
-GREEN_LOWER = np.array([0,0,0])
-GREEN_UPPER = np.array([179, 255, 60])
+GREEN_LOWER = np.array([8,25,13])
+GREEN_UPPER = np.array([179, 254, 79])
 
 # Define a decorator as a subclass of Annotator; displays the keypoint
 class BoxAnnotator(cozmo.annotate.Annotator):
@@ -51,7 +51,8 @@ class BoxAnnotator(cozmo.annotate.Annotator):
 
 async def run(robot: cozmo.robot.Robot):
 
-    robot.world.image_annotator.annotation_enabled = False
+    robot.world.image_annotator.annotation_enabled = True
+
     robot.world.image_annotator.add_annotator('box', BoxAnnotator)
 
     robot.camera.image_stream_enabled = True
@@ -80,6 +81,14 @@ async def run(robot: cozmo.robot.Robot):
                 ################################################################
                 # Todo: Add Motion Here
                 ################################################################
+                if cube is None:
+                    await robot.drive_wheels(-20,20)
+                    time.sleep(0.05)
+                else:
+                    robot.stop_all_motors()
+                    time.sleep(1)
+                    print("Found a cube")
+                    if()
 
 
 
