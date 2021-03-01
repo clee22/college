@@ -110,7 +110,7 @@ async def run(robot: cozmo.robot.Robot):
                     # then make the robot drive a little more to the right to center the cube
                         await robot.drive_wheels(30,20)
                         time.sleep(0.05)
-                    elif(cube[0] > 159 and (cube[0]+cube[2]) < 159):
+                    elif(cube[0] > 129 and (cube[0]+cube[2]) < 189):
                     # if the cub has neither of the previous two conditions move forward    
                         await robot.drive_wheels(30,30)
                         time.sleep(0.05)
