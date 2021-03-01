@@ -61,6 +61,9 @@ async def run(robot: cozmo.robot.Robot):
 
     gain,exposure,mode = 390,3,1
 
+    # below is a singular line i added to make sure cozmo's head always starts out looking straight and not down or up
+    robot.set_head_angle(cozmo.util.degrees(-10), 0.0, 2.0, 0.5, True, False, 10)
+
     try:
 
         while True:
@@ -83,12 +86,27 @@ async def run(robot: cozmo.robot.Robot):
                 ################################################################
                 if cube is None:
                     await robot.drive_wheels(-20,20)
+                    justFound = True # bool for whether cube was just found or not
                     time.sleep(0.05)
                 else:
-                    robot.stop_all_motors()
-                    time.sleep(1)
-                    print("Found a cube")
-                    if()
+                    if justFound is True:
+                        robot.stop_all_motors()
+                        time.sleep(1)
+                        justFound = False
+                        print("Found a cube")
+                    elif (cube[0] < 80 and (cube[0]+cube[2]) < 240):
+                        await robot.drive_wheels(30,20)
+                        time.sleep(0.1)
+                    elif (cube[0] > 80 and (cube[0]+cube[2]) > 240):
+                        await robot.drive_wheels(20,30)
+                        time.sleep(0.1)
+                    elif(cube[0] < 240 and (cube[0]+cube[2]) > 80):
+                        await robot.drive_wheels(30,30)
+                        time.sleep(0.1)
+                    elif(cube[0] < 80 and (cube[0]+cube[2]) > 240):
+                        await robot.drive_wheels(0,0)
+                        time.sleep(0.1)
+
 
 
 
