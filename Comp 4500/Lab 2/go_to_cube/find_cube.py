@@ -3,8 +3,8 @@ import numpy as np
 import time
 
 def filter_image(img, hsv_lower, hsv_upper):
-    img_filt = cv2.medianBlur(img, 5)
-    hsv = cv2.cvtColor(img_filt, cv2.COLOR_BGR2HSV)
+    #img_filt = cv2.medianBlur(img, 5)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(hsv, hsv_lower, hsv_upper)
     return mask
 
@@ -24,7 +24,7 @@ def detect_blob(mask):
     params.blobColor = 255  # this looks at binary image 0 for looking for dark areas
     # Filter by Area.
     params.filterByArea = True
-    params.minArea = 50
+    params.minArea = 0
     params.maxArea = 15000
     # Filter by Circularity
     params.filterByCircularity = False
