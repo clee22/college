@@ -25,7 +25,7 @@ def detect_blob(mask):
     # Filter by Area.
     params.filterByArea = True
     params.minArea = 50
-    params.maxArea = 20000
+    params.maxArea = 15000
     # Filter by Circularity
     params.filterByCircularity = False
     # Filter by Convexity
@@ -55,6 +55,6 @@ def find_cube(img, hsv_lower, hsv_upper):
     # Todo: Sort the keypoints in a certain way if multiple key points get returned
     ###############################################################################
 
-    #keypoints = sorted(keypoints, key=lambda keypoint: keypoint.size, reverse=True)
+    keypoints = sorted(keypoints, key=lambda keypoint: keypoint.size, reverse=True)
     return [keypoints[0].pt[0], keypoints[0].pt[1], keypoints[0].size]
 
