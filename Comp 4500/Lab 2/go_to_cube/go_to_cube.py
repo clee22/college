@@ -21,8 +21,8 @@ def nothing(x):
 YELLOW_LOWER = np.array([9, 115, 151])
 YELLOW_UPPER = np.array([60, 255, 255])
 
-GREEN_LOWER = np.array([8,25,13])
-GREEN_UPPER = np.array([179, 254, 79])
+GREEN_LOWER = np.array([60,25,13])
+GREEN_UPPER = np.array([80, 220, 255])
 
 # Define a decorator as a subclass of Annotator; displays the keypoint
 class BoxAnnotator(cozmo.annotate.Annotator):
@@ -90,22 +90,35 @@ async def run(robot: cozmo.robot.Robot):
                     time.sleep(0.05)
                 else:
                     if justFound is True:
-                        robot.stop_all_motors()
-                        time.sleep(1)
+                        await robot.drive_wheels(0,0)
+                        time.sleep(0.05)
                         justFound = False
                         print("Found a cube")
-                    elif (cube[0] < 80 and (cube[0]+cube[2]) < 240):
-                        await robot.drive_wheels(30,20)
-                        time.sleep(0.1)
-                    elif (cube[0] > 80 and (cube[0]+cube[2]) > 240):
+                    # only x needs to be compared since we are finding the cube again 
+                    # not tracking it movement if it is moved. so y is unneccessary and 
+                    # wont be compared. also considering Cozmo's stream is 320x340
+                    # the range for x must be  0- 319 given there is 320 horizontally.
+                    # since cube is a keypoint and is ordered x,y,width the rightmost
+                    # x value must be cube [0]+cube[2]
+                    elif ( (cube[0]+cube[2]) < 159):
+                    # if the cube's right most x is to the left of the middle of the stream
+                    # then make the robot drive a little to the left to center the cube    
                         await robot.drive_wheels(20,30)
-                        time.sleep(0.1)
-                    elif(cube[0] < 240 and (cube[0]+cube[2]) > 80):
+                        time.sleep(0.055)
+                    elif (cube[0] > 159):
+                    # if the cube's left most x is to the right of the middle of the stream
+                    # then make the robot drive a little more to the right to center the cube
+                        await robot.drive_wheels(30,20)
+                        time.sleep(0.05)
+                    elif(cube[0] > 159 and (cube[0]+cube[2]) < 159):
+                    # if the cub has neither of the previous two conditions move forward    
                         await robot.drive_wheels(30,30)
-                        time.sleep(0.1)
-                    elif(cube[0] < 80 and (cube[0]+cube[2]) > 240):
+                        time.sleep(0.05)
+                    elif(cube[0] < 129 and (cube[0]+cube[2]) > 189):
+                    # if the cubes left and right most variables are larger than these two values
+                    # then it should stop the robot in time to be a little more than 5 cm of the cube
                         await robot.drive_wheels(0,0)
-                        time.sleep(0.1)
+                        time.sleep(0.05)
 
 
 
