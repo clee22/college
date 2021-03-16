@@ -39,24 +39,29 @@ def handle_object_disappeared(evt, **kw):
 
 ### stuff for handling states below
 
-def start_transitions(arr):
-    cube_pos = [None, None, None, None, None] # 5 length array intended for cube positions to tell if cube is going 
+def start_transitions(arr, cube):
+    arr = cube_pos = [None, None, None, None, None] # 5 length array intended for cube positions to tell if cube is going 
+    cube 
     newState = "left_search"
-    return (newState, cube_pos)
+    return (newState, arr, cube)
 
-def left_search_state_transitions(arr):
+def left_search_state_transitions(arr, cube):
     counter = 0
-    while (target_obj_found is False):
+    while (cube is None):
         await robot.drive_wheels(-20,20)
         time.sleep(0.066)
         # if the counter reachs 10 then the robot should have been able to rotate 360 degree a good number of times
         # to avoid either moving to fast and missing the cube detection given the space between the wheels is about 
         # 56 cm and so given the idea of a circle and the circumference needed to rotate 360 degrees diameter*pi 
-        # 
-
-        if (counter > 20):
+        # resulting in 175.929mm in circumference meaning to do a 360 turn while turning both wheels have to travel
+        # about 88 mm/s to travel 360 degrees in a second divide that by 15 for the fram count and you getabout 5.86 
+        # mm/s so moving a little over 3x that about a 7th of a second (0.666) means about 3.41 full rotations of 
+        # looking without finding a cube. so to remedy that the robot is set to move at a random angle, whichever the 
+        # robot stopped rotating in and drive forward in a random direction before beginning to rotate again
+        if (counter > 10):
             await robot.drive_wheels(20,20)
             time.sleep(0.198)
+            count = -1 # set it to -1 because after if conditional 1 is added to counter making the counter 0 again
         counter = counter + 1
     
     
@@ -97,7 +102,6 @@ async def run(robot: cozmo.robot.Robot):
     fsm.set_start("Start")
     fsm.run(cube)
 
-    cube = target1_obj
 
 
 if __name__ == '__main__':
