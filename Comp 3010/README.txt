@@ -11,3 +11,7 @@ figure out selective respository sharing
    portion of testing done, but not the bigstep semantics done
    ** said test cases still needed to be finished and bug tested to work
       100% of the time
+
+-----------------------3/16/21----------------------------------------
+** some work done to make big step semantics work not all tests checked for sure.
+      -- 1:38 something came up i had to do so i stopped testing to do that.
