@@ -18,7 +18,16 @@ except ImportError:
 def nothing(x):
     pass
 
+def start_transitions(txt):
+    cube_pos = [None, None, None, None, None] # 5 length array intended for cube positions to tell if cube is going 
+    newState = "left_search"
+    return (newState, cube_pos)
 
+def left_search_state_transitions(txt):
+    
+    
+
+    return (newState, cube_pos)
 
 
 
