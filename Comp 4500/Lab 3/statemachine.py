@@ -13,7 +13,7 @@ class StateMachine:
     def set_start(self, name):
         self.startState = name.upper()
 
-    def run(self, cargo):
+    def run(self, arr, cube):
         try:
             handler = self.handlers[self.startState]
         except:
@@ -22,7 +22,7 @@ class StateMachine:
             raise  InitializationError("at least one state must be an end_state")
     
         while True:
-            (newState, cargo) = handler(cargo)
+            (newState, arr, cube) = handler(arr, cube)
             if newState.upper() in self.endStates:
                 print("reached ", newState)
                 break 
