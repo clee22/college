@@ -25,7 +25,10 @@ def handle_object_appeared(evt, **kw):
     # This will be called whenever an EvtObjectAppeared is dispatched -
     # whenever an Object comes into view.
     if isinstance(evt.obj, CustomObject):
-        
+        if(evt.obj = target1_obj)
+            cube1 = evt.ImageBox
+        if(evt.obj = target2_obj)
+            cube2 = evt.ImageBox
         print("Cozmo started seeing a %s" % str(evt.obj.object_type))
 
 
@@ -40,8 +43,6 @@ def handle_object_disappeared(evt, **kw):
 ### stuff for handling states below
 
 def start_transitions(arr, cube):
-    arr = cube_pos = [None, None, None, None, None] # 5 length array intended for cube positions to tell if cube is going 
-    cube 
     newState = "left_search"
     return (newState, arr, cube)
 
@@ -64,13 +65,21 @@ def left_search_state_transitions(arr, cube):
             count = -1 # set it to -1 because after if conditional 1 is added to counter making the counter 0 again
         counter = counter + 1
     
-    
+    arr[0] = cube
 
-    return (newState, cube_pos)
+    return (newState, arr, cube)
 
 
 
 async def run(robot: cozmo.robot.Robot):
+
+    robot.world.image_annotator.annotation_enabled = True
+
+    robot.world.image_annotator.add_annotator('box', CustomObject)
+
+    robot.camera.image_stream_enabled = True
+    robot.camera.color_image_enabled = True
+    robot.camera.enable_auto_exposure = True
 
     # Add event handlers for whenever Cozmo sees a new object
     robot.add_event_handler(cozmo.objects.EvtObjectAppeared, handle_object_appeared)
@@ -90,7 +99,8 @@ async def run(robot: cozmo.robot.Robot):
     # below is a singular line i added to make sure cozmo's head always starts out looking straight and not down or up
     robot.set_head_angle(cozmo.util.degrees(-10), 0.0, 2.0, 0.5, True, False, 10)
 
-    cube = target1_obj
+    cube_pos = [None, None, None, None, None] # 5 length array intended for cube positions to tell if cube is going 
+    BoxAnnotator.cube = target1_obj  # set the initial cube to cube
 
     fsm = StateMachine()
     fsm.add_state("Start", start_transitions)
@@ -100,7 +110,9 @@ async def run(robot: cozmo.robot.Robot):
     fsm.add_state("approach", approach_state_transitions)
     fsm.add_state("exit", None, end_state=1)
     fsm.set_start("Start")
-    fsm.run(cube)
+    fsm.run(cube_pos, cube1)
+    cube_pos = [None, None, None, None, None] # reset the cube pos array to nulls for the second run of the fsm to find the second cube
+    fsm.run(cube_pos, cube2)
 
 
 
