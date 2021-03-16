@@ -42,13 +42,13 @@ def custom_objects(robot: cozmo.robot.Robot):
     # define the target cube which has the circles4 AR symbol
     target_obj = robot.world.define_custom_cube(CustomObjectTypes.CustomType00,
                                               CustomObjectMarkers.Circles4,
-                                              44,
-                                              30, 30, True)
+                                              45,
+                                              25, 25, True)
     # define the non importan/tracked cube as a distraction and has the diamonds2 AR symbol
     distractor_obj = robot.world.define_custom_cube(CustomObjectTypes.CustomType01,
                                               CustomObjectMarkers.Diamonds2,
-                                              44,
-                                              30, 30, True)
+                                              45,
+                                              25, 25, True)
 
 ### end of stuff for handling custom objects
 
@@ -60,6 +60,10 @@ def start_transitions(txt):
     return (newState, cube_pos)
 
 def left_search_state_transitions(txt):
+    
+    while (target_obj is None):
+        await robot.drive_wheels(-20,20)
+        time.sleep(0.05)
     
     
 
