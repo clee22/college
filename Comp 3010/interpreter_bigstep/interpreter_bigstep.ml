@@ -38,14 +38,14 @@ let rec string_of_exp (e : exp) = match e with
       match e1 with 
       | Num(e1) -> (
           match e2 with 
-          | Num (e2)-> eval(Num(e1+e2))
+          | Num (e2)-> Num(e1+e2)
           | _ -> raise (Eval_error) )
       | _ -> raise Eval_error )
   | Mult(e1,e2) -> (
       match e1 with 
       | Num(e1) -> (
           match e2 with 
-          | Num (e2) -> eval(Num (e1*e2))
+          | Num (e2) -> Num (e1*e2)
           | _ -> raise Eval_error )
       | _ -> raise Eval_error )
   | If(e1,e2,e3) -> if eval(e1) = True then eval(e2) else eval(e3) 
