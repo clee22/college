@@ -19,6 +19,9 @@ except ImportError:
 def nothing(x):
     pass
 
+cube1 = None
+cube2 = None
+
 ### stuff for custom object handling below
  
 def handle_object_observed(evt, **kw):
@@ -26,9 +29,9 @@ def handle_object_observed(evt, **kw):
     # whenever an Object comes into view.
     if isinstance(evt.obj, CustomObject):
         if(evt.obj.object_type = target1_obj.object_type)
-            cube1 = evt.image_box
+            cube1 = evt
         if(evt.obj.object_type = target2_obj.object_type)
-            cube2 = evt.image_box
+            cube2 = evt
         
 
 
@@ -61,10 +64,39 @@ def left_search_state_transitions(arr, cube):
     
     ### the moment the cube is not None and thus found by the event handler
 
-    arr[0] = cube.Left
-
+    arr[0] = cube.image_box.left_x
+    newState = "track"
     return (newState, arr, cube)
 
+def right_search_state_transitions(arr, cube):
+    counter = 0
+    while (cube is None):
+        await robot.drive_wheels(20,-20)
+        time.sleep(0.066)
+        # if the counter reachs 10 then the robot should have been able to rotate 360 degree a good number of times
+        # to avoid either moving to fast and missing the cube detection given the space between the wheels is about 
+        # 56 cm and so given the idea of a circle and the circumference needed to rotate 360 degrees diameter*pi 
+        # resulting in 175.929mm in circumference meaning to do a 360 turn while turning both wheels have to travel
+        # about 88 mm/s to travel 360 degrees in a second divide that by 15 for the fram count and you getabout 5.86 
+        # mm/s so moving a little over 3x that about a 7th of a second (0.666) means about 3.41 full rotations of 
+        # looking without finding a cube. so to remedy that the robot is set to move at a random angle, whichever the 
+        # robot stopped rotating in and drive forward in a random direction before beginning to rotate again
+        if (counter > 10):
+            await robot.drive_wheels(20,20)
+            time.sleep(0.198)
+            count = -1 # set it to -1 because after if conditional 1 is added to counter making the counter 0 again
+        counter = counter + 1
+    
+    ### the moment the cube is not None and thus found by the event handler
+
+    arr[0] = cube.image_box.left_x
+    newState = "track"
+    return (newState, arr, cube)
+
+def track_state_transitions(arr, cube):
+
+
+    return (newState, arr, cube)
 
 
 async def run(robot: cozmo.robot.Robot):
