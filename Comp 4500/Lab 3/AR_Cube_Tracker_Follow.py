@@ -21,22 +21,16 @@ def nothing(x):
 
 ### stuff for custom object handling below
  
-def handle_object_appeared(evt, **kw):
+def handle_object_observed(evt, **kw):
     # This will be called whenever an EvtObjectAppeared is dispatched -
     # whenever an Object comes into view.
     if isinstance(evt.obj, CustomObject):
-        if(evt.obj = target1_obj)
-            cube1 = evt.ImageBox
-        if(evt.obj = target2_obj)
-            cube2 = evt.ImageBox
-        print("Cozmo started seeing a %s" % str(evt.obj.object_type))
+        if(evt.obj.object_type = target1_obj.object_type)
+            cube1 = evt.image_box
+        if(evt.obj.object_type = target2_obj.object_type)
+            cube2 = evt.image_box
+        
 
-
-def handle_object_disappeared(evt, **kw):
-    # This will be called whenever an EvtObjectDisappeared is dispatched -
-    # whenever an Object goes out of view.
-    if isinstance(evt.obj, CustomObject):
-        print("Cozmo stopped seeing a %s" % str(evt.obj.object_type))
 
 ### end of stuff for handling custom objects
 
@@ -65,7 +59,9 @@ def left_search_state_transitions(arr, cube):
             count = -1 # set it to -1 because after if conditional 1 is added to counter making the counter 0 again
         counter = counter + 1
     
-    arr[0] = cube
+    ### the moment the cube is not None and thus found by the event handler
+
+    arr[0] = cube.Left
 
     return (newState, arr, cube)
 
